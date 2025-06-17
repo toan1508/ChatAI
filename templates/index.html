@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title> ProAi 🌎 </title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="chat-container">
+    <h2>AI Chat</h2>
+    <form id="chat-form">
+      <input type="text" name="query" id="query" placeholder="Say something..." required>
+      <button type="submit">Send</button>
+    </form>
+    <div id="response"></div>
+    <audio id="audio" controls autoplay hidden></audio>
+  </div>
+
+  <script>
+    document.getElementById("chat-form").addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const query = document.getElementById("query").value;
+      const res = await fetch("/ask", {
+        method: "POST",
+        body: new URLSearchParams({ query })
+      });
+      const data = await res.json();
+      document.getElementById("response").innerText = data.text;
+      const audio = document.getElementById("audio");
+      audio.src = data.audio + "?t=" + new Date().getTime();
+      audio.hidden = false;
+      audio.play();
+    });
+  </script>
+</body>
+</html>

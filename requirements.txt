@@ -1,0 +1,4 @@
+Flask==2.3.3
+gTTS==2.3.2
+wikipedia==1.4.0
+gunicorn==23.0.0
